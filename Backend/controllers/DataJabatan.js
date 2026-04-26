@@ -56,6 +56,12 @@ export const createDataJabatan = async (req, res) => {
     const {
         id_jabatan, nama_jabatan, gaji_pokok, tj_transport, uang_makan
     } = req.body;
+
+    // LF-102: Salary fields must be positive numbers
+    if (parseInt(gaji_pokok) <= 0) return res.status(400).json({ success: false, message: 'Gaji pokok harus bernilai positif' });
+    if (parseInt(tj_transport) < 0) return res.status(400).json({ success: false, message: 'Tunjangan transport tidak boleh negatif' });
+    if (parseInt(uang_makan) < 0) return res.status(400).json({ success: false, message: 'Uang makan tidak boleh negatif' });
+
     try {
         if (req.hak_akses === "admin") {
             await DataJabatan.create({
@@ -94,6 +100,11 @@ export const updateDataJabatan = async (req, res) => {
         });
         if (!jabatan) return res.status(404).json({ msg: "Data tidak ditemukan" });
         const { nama_jabatan, gaji_pokok, tj_transport, uang_makan } = req.body;
+
+        // LF-102: Salary fields must be positive numbers
+        if (parseInt(gaji_pokok) <= 0) return res.status(400).json({ msg: 'Gaji pokok harus bernilai positif' });
+        if (parseInt(tj_transport) < 0) return res.status(400).json({ msg: 'Tunjangan transport tidak boleh negatif' });
+        if (parseInt(uang_makan) < 0) return res.status(400).json({ msg: 'Uang makan tidak boleh negatif' });
         if (req.hak_akses === "admin") {
             await DataJabatan.update({
                 nama_jabatan, gaji_pokok, tj_transport, uang_makan

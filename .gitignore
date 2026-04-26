@@ -22,4 +22,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Excluded from repo
+Technical.md
+Steps.md
+Assignement.md
+.claude
+Backend/seed.js
+Backend/.env
+
  
